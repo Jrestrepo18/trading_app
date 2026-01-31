@@ -67,7 +67,15 @@ var firebaseCredentialPath = builder.Configuration["Firebase:CredentialPath"] ??
 var projectId = builder.Configuration["Firebase:ProjectId"] ?? "trading-app-23c3f";
 
 GoogleCredential? credential = null;
-if (File.Exists(firebaseCredentialPath))
+
+// Try to load from environment variable first (for production/Render)
+var firebaseCredentialsJson = Environment.GetEnvironmentVariable("FIREBASE_CREDENTIALS_JSON");
+if (!string.IsNullOrEmpty(firebaseCredentialsJson))
+{
+    credential = GoogleCredential.FromJson(firebaseCredentialsJson);
+    Console.WriteLine("✅ Firebase credentials loaded from environment variable");
+}
+else if (File.Exists(firebaseCredentialPath))
 {
     credential = GoogleCredential.FromFile(firebaseCredentialPath);
     Console.WriteLine($"✅ Firebase credentials loaded from: {firebaseCredentialPath}");
@@ -113,15 +121,13 @@ builder.Services.AddScoped<INewsRepository, NewsRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline
-if (app.Environment.IsDevelopment())
+// Enable Swagger in all environments (including production for Render)
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "TradingApp API v1");
-        c.RoutePrefix = "swagger";
-    });
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "TradingApp API v1");
+    c.RoutePrefix = "swagger";
+});
 
 app.UseCors("AllowFrontend");
 app.UseStaticFiles();
