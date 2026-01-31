@@ -79,8 +79,11 @@ else if (File.Exists(firebaseCredentialPath))
 {
     credential = GoogleCredential.FromFile(firebaseCredentialPath);
     Console.WriteLine($"✅ Firebase credentials loaded from: {firebaseCredentialPath}");
-    
-    // Initialize Firebase Admin SDK
+}
+
+// Initialize Firebase Admin SDK (Run this regardless of where credentials came from)
+if (credential != null)
+{
     if (FirebaseApp.DefaultInstance == null)
     {
         FirebaseApp.Create(new AppOptions
