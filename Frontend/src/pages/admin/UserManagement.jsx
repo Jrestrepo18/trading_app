@@ -7,8 +7,7 @@ import {
     Terminal, Fingerprint, UserCheck, Shield, Users, TrendingUp,
     Eye, Edit3, Trash2, XCircle, Download, ChevronDown, Loader2
 } from 'lucide-react';
-
-const API_URL = 'http://localhost:5257';
+import { API_URL } from '../../config/api';
 
 const UserManagement = () => {
     const location = useLocation();

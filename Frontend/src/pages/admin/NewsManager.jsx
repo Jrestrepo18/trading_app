@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { toast } from '../../stores/toastStore';
 import ConfirmModal from '../../components/ui/ConfirmModal';
+import { API_URL } from '../../config/api';
 
 // Phone Mockup Preview
 const PhoneMockup = ({ announcement }) => (
@@ -100,7 +101,7 @@ const NewsManager = () => {
 
     const fetchNews = async () => {
         try {
-            const response = await fetch('http://localhost:5257/api/news');
+            const response = await fetch(`${API_URL}/api/news`);
             if (response.ok) {
                 const data = await response.json();
                 setNewsHistory(data);
@@ -163,7 +164,7 @@ const NewsManager = () => {
     const handleConfirmDelete = async () => {
         if (!deleteConfirmId) return;
         try {
-            const response = await fetch(`http://localhost:5257/api/news/${deleteConfirmId}`, {
+            const response = await fetch(`${API_URL}/api/news/${deleteConfirmId}`, {
                 method: 'DELETE'
             });
             if (response.ok) {
@@ -197,7 +198,7 @@ const NewsManager = () => {
                 newNews.id = formData.id;
             }
 
-            const url = isEdit ? `http://localhost:5257/api/news/${formData.id}` : 'http://localhost:5257/api/news';
+            const url = isEdit ? `${API_URL}/api/news/${formData.id}` : `${API_URL}/api/news`;
             const method = isEdit ? 'PUT' : 'POST';
 
             const response = await fetch(url, {

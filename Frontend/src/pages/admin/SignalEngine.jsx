@@ -16,6 +16,7 @@ import {
 } from '../../services/unifiedMarketService';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../config/firebase';
+import { API_URL } from '../../config/api';
 
 const playClick = () => console.log('Mechanical Click Sound Played');
 
@@ -372,7 +373,7 @@ const SignalEngine = () => {
     useEffect(() => {
         const fetchSignals = async () => {
             try {
-                const response = await fetch('http://localhost:5257/api/signals');
+                const response = await fetch(`${API_URL}/api/signals`);
                 if (response.ok) {
                     const data = await response.json();
                     const formatted = data.map(s => ({
@@ -458,7 +459,7 @@ const SignalEngine = () => {
                 return;
             }
 
-            const response = await fetch('http://localhost:5257/api/signals', {
+            const response = await fetch(`${API_URL}/api/signals`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -477,7 +478,7 @@ const SignalEngine = () => {
             const newSignal = await response.json();
 
             // Re-fetch to get updated list
-            const fetchResponse = await fetch('http://localhost:5257/api/signals');
+            const fetchResponse = await fetch(`${API_URL}/api/signals`);
             if (fetchResponse.ok) {
                 const data = await fetchResponse.json();
                 setActiveOperations(data.map(s => ({
@@ -514,7 +515,7 @@ const SignalEngine = () => {
             });
 
             // 3. Backend API Update (Notifications & Persistence)
-            await fetch(`http://localhost:5257/api/signals/${id}/status`, {
+            await fetch(`${API_URL}/api/signals/${id}/status`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -533,7 +534,7 @@ const SignalEngine = () => {
         if (!window.confirm('¿Estás seguro de que deseas eliminar esta señal?')) return;
         try {
             const adminId = 'admin_123';
-            const response = await fetch(`http://localhost:5257/api/signals/${id}`, {
+            const response = await fetch(`${API_URL}/api/signals/${id}`, {
                 method: 'DELETE',
                 headers: { 'X-Admin-Id': adminId }
             });

@@ -7,6 +7,7 @@ import {
     Wallet, Bell, Signal, Briefcase, Shield, Radio, ChevronRight,
     Send, MessageSquare, UserPlus, AlertTriangle, CheckCircle2, Cpu, PieChart
 } from 'lucide-react';
+import { API_URL } from '../../config/api';
 
 // Live price ticker from Binance - Animated Marquee
 const MarketTicker = () => {
@@ -141,7 +142,7 @@ const DashboardOverview = () => {
     useEffect(() => {
         const fetchStats = async () => {
             try {
-                const res = await fetch('http://localhost:5257/api/dashboard/stats');
+                const res = await fetch(`${API_URL}/api/dashboard/stats`);
                 if (res.ok) {
                     const data = await res.json();
                     setStatsData({

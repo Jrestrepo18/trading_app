@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import EmojiPicker from 'emoji-picker-react';
 import EconomicCalendar from '../components/EconomicCalendar';
+import { API_URL } from '../config/api';
 
 // --- UTILS ---
 const getSmartImage = (item) => {
@@ -494,7 +495,7 @@ const SupportUserView = ({ user }) => {
             }
 
             try {
-                const response = await fetch(`http://localhost:5257/api/support/user/${userId}/tickets`);
+                const response = await fetch(`${API_URL}/api/support/user/${userId}/tickets`);
                 if (response.ok) {
                     const data = await response.json();
                     setTickets(data);
@@ -515,7 +516,7 @@ const SupportUserView = ({ user }) => {
         if (!activeTicket) return;
         const fetchMessages = async () => {
             try {
-                const response = await fetch(`http://localhost:5257/api/support/tickets/${activeTicket}/messages`);
+                const response = await fetch(`${API_URL}/api/support/tickets/${activeTicket}/messages`);
                 if (response.ok) {
                     const data = await response.json();
                     setMessages(data);
@@ -551,7 +552,7 @@ const SupportUserView = ({ user }) => {
                 status: 'OPEN'
             };
 
-            const response = await fetch('http://localhost:5257/api/support/tickets', {
+            const response = await fetch(`${API_URL}/api/support/tickets`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(ticketData)
@@ -579,7 +580,7 @@ const SupportUserView = ({ user }) => {
             const formData = new FormData();
             formData.append('file', imageFile);
             try {
-                const uploadRes = await fetch('http://localhost:5257/api/support/upload', {
+                const uploadRes = await fetch(`${API_URL}/api/support/upload`, {
                     method: 'POST',
                     body: formData
                 });
@@ -602,7 +603,7 @@ const SupportUserView = ({ user }) => {
         };
 
         try {
-            const response = await fetch(`http://localhost:5257/api/support/tickets/${activeTicket}/messages`, {
+            const response = await fetch(`${API_URL}/api/support/tickets/${activeTicket}/messages`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(newMessage)
@@ -730,7 +731,7 @@ const SupportUserView = ({ user }) => {
                                             }`}>
                                             {msg.attachmentUrl && (
                                                 <img
-                                                    src={`http://localhost:5257${msg.attachmentUrl}`}
+                                                    src={`${API_URL}${msg.attachmentUrl}`}
                                                     alt="adjunto"
                                                     className="max-w-full h-auto rounded-lg mb-2 border border-black/20"
                                                 />
@@ -769,7 +770,7 @@ const SupportUserView = ({ user }) => {
                                                         onMouseLeave={() => setHoverRating(0)}
                                                         onClick={async () => {
                                                             try {
-                                                                await fetch(`http://localhost:5257/api/support/tickets/${activeTicket}/rate`, {
+                                                                await fetch(`${API_URL}/api/support/tickets/${activeTicket}/rate`, {
                                                                     method: 'POST',
                                                                     headers: { 'Content-Type': 'application/json' },
                                                                     body: JSON.stringify({ rating: star })
@@ -1604,7 +1605,7 @@ const DashboardPage = () => {
     useEffect(() => {
         const fetchStats = async () => {
             try {
-                const response = await fetch('http://localhost:5257/api/users/stats');
+                const response = await fetch(`${API_URL}/api/users/stats`);
                 const data = await response.json();
                 if (data.success) {
                     setStats({ ...data.stats, loading: false });
@@ -1629,7 +1630,7 @@ const DashboardPage = () => {
     useEffect(() => {
         const fetchPlans = async () => {
             try {
-                const response = await fetch('http://localhost:5257/api/plans');
+                const response = await fetch(`${API_URL}/api/plans`);
                 if (response.ok) {
                     const data = await response.json();
                     setPlans(data);

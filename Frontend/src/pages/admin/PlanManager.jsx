@@ -4,6 +4,7 @@ import {
     CreditCard, CheckCircle2, AlertTriangle, Plus, Pencil, Trash2,
     Save, X, Info, ShieldCheck, Zap, Globe2, Activity
 } from 'lucide-react';
+import { API_URL } from '../../config/api';
 
 const PlanCard = ({ plan, onEdit, onDelete }) => (
     <motion.div
@@ -63,7 +64,7 @@ const PlanManager = () => {
 
     const fetchPlans = async () => {
         try {
-            const response = await fetch('http://localhost:5257/api/plans');
+            const response = await fetch(`${API_URL}/api/plans`);
             if (response.ok) {
                 const data = await response.json();
                 setPlans(data);
@@ -95,8 +96,8 @@ const PlanManager = () => {
 
         try {
             const url = isAdding
-                ? 'http://localhost:5257/api/plans'
-                : `http://localhost:5257/api/plans/${editingPlan.id}`;
+                ? `${API_URL}/api/plans`
+                : `${API_URL}/api/plans/${editingPlan.id}`;
             const method = isAdding ? 'POST' : 'PUT';
 
             const response = await fetch(url, {
@@ -121,7 +122,7 @@ const PlanManager = () => {
     const handleDelete = async (id) => {
         if (!window.confirm('¿Seguro que deseas eliminar este plan?')) return;
         try {
-            const response = await fetch(`http://localhost:5257/api/plans/${id}`, {
+            const response = await fetch(`${API_URL}/api/plans/${id}`, {
                 method: 'DELETE'
             });
             if (response.ok) {

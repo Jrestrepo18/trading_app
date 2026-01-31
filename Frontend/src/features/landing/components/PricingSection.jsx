@@ -1,5 +1,6 @@
 import React from 'react';
 import { Check, Sparkles } from 'lucide-react';
+import { API_URL } from '../../../config/api';
 
 const PricingSection = () => {
     const [plans, setPlans] = React.useState([]);
@@ -7,7 +8,7 @@ const PricingSection = () => {
     React.useEffect(() => {
         const fetchPlans = async () => {
             try {
-                const response = await fetch('http://localhost:5257/api/plans');
+                const response = await fetch(`${API_URL}/api/plans`);
                 if (response.ok) {
                     const data = await response.json();
                     setPlans(data);

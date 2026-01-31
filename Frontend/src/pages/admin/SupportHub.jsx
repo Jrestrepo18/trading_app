@@ -6,6 +6,7 @@ import {
     AlertTriangle, Users, Headphones, Ban, Smile, Paperclip
 } from 'lucide-react';
 import EmojiPicker from 'emoji-picker-react';
+import { API_URL } from '../../config/api';
 
 const SupportHub = () => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -24,7 +25,7 @@ const SupportHub = () => {
     useEffect(() => {
         const fetchTickets = async () => {
             try {
-                const response = await fetch('http://localhost:5257/api/support/tickets');
+                const response = await fetch(`${API_URL}/api/support/tickets`);
                 if (response.ok) {
                     const data = await response.json();
                     // Filter out resolved tickets from main view based on user request "que se quite el chat de pendientes"
@@ -54,7 +55,7 @@ const SupportHub = () => {
 
         const fetchMessages = async () => {
             try {
-                const response = await fetch(`http://localhost:5257/api/support/tickets/${activeTicket}/messages`);
+                const response = await fetch(`${API_URL}/api/support/tickets/${activeTicket}/messages`);
                 if (response.ok) {
                     const data = await response.json();
                     setMessages(data);
@@ -83,7 +84,7 @@ const SupportHub = () => {
         const fetchStats = async () => {
             try {
                 console.log("Fetching stats...");
-                const response = await fetch('http://localhost:5257/api/support/stats');
+                const response = await fetch(`${API_URL}/api/support/stats`);
                 if (response.ok) {
                     const data = await response.json();
                     console.log("Stats received:", data);
@@ -136,7 +137,7 @@ const SupportHub = () => {
                 actionLabel: 'Cerrar Ticket',
                 type: 'info',
                 onConfirm: async () => {
-                    await fetch(`http://localhost:5257/api/support/tickets/${activeTicket}/status`, {
+                    await fetch(`${API_URL}/api/support/tickets/${activeTicket}/status`, {
                         method: 'PUT',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ status: 'RESOLVED' })
@@ -175,7 +176,7 @@ const SupportHub = () => {
             const formData = new FormData();
             formData.append('file', imageFile);
             try {
-                const uploadRes = await fetch('http://localhost:5257/api/support/upload', {
+                const uploadRes = await fetch(`${API_URL}/api/support/upload`, {
                     method: 'POST',
                     body: formData
                 });
@@ -198,7 +199,7 @@ const SupportHub = () => {
         };
 
         try {
-            const response = await fetch(`http://localhost:5257/api/support/tickets/${activeTicket}/messages`, {
+            const response = await fetch(`${API_URL}/api/support/tickets/${activeTicket}/messages`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(newMessage)
@@ -383,7 +384,7 @@ const SupportHub = () => {
                                                 }`}>
                                                 {msg.attachmentUrl && (
                                                     <img
-                                                        src={`http://localhost:5257${msg.attachmentUrl}`}
+                                                        src={`${API_URL}${msg.attachmentUrl}`}
                                                         alt="adjunto"
                                                         className="max-w-full h-auto rounded-lg mb-2 border border-black/20"
                                                     />
