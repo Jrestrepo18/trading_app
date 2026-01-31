@@ -1,0 +1,32 @@
+# Firebase credentials - ¡NO SUBIR AL REPOSITORIO!
+firebase-credentials.json
+*.json.bak
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio
+.vs/
+*.swp
+*~
+
+# Rider
+.idea/
+
+# NuGet
+packages/
+*.nupkg
+project.lock.json
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+/* IMPORTANTE: 
+  La línea de arriba (@import "tailwindcss";) es OBLIGATORIA en Tailwind 4.
+  Sin ella, no se cargarán los colores, ni sombras, ni el diseño.
+*/
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  /* Forzamos modo oscuro base */
+  color-scheme: dark;
+  background-color: #0A0C10;
+  color: rgba(255, 255, 255, 0.87);
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+html {
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: #1e293b #0A0C10;
+}
+
+/* Custom scrollbar for webkit browsers */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0A0C10;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
