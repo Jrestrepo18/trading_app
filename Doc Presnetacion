@@ -1,0 +1,77 @@
+# 🛡️ EnvyGuard Frontend - Documentación para Presentación (Pitch)
+
+## 📌 Resumen del Proyecto
+**EnvyGuard** es una plataforma de control y monitoreo de dispositivos en tiempo real. El frontend es una **SPA (Single Page Application)** construida con React que permite a los administradores visualizar pantallas de agentes remotos ("SpyWall"), enviar comandos de control y gestionar dispositivos.
+
+---
+
+## 🛠️ Tech Stack (Tecnologías Utilizadas)
+
+### Core
+*   **React (v18)**: Biblioteca principal para la construcción de interfaces.
+*   **Create React App (CRA)**: Herramienta de build y configuración inicial.
+*   **React Router DOM (v6)**: Manejo de rutas y navegación (protección de rutas públicas/privadas).
+
+### UI & Estilos
+*   **Material UI (MUI v5)**: Framework de componentes de diseño (botones, inputs, layouts).
+*   **Emotion**: Motor de estilos CSS-in-JS utilizado por MUI.
+*   **Framer Motion**: Librería para animaciones fluidas y transiciones.
+*   **Lucide React**: Paquete de iconos modernos y ligeros.
+
+### Comunicación & Datos
+*   **SockJS + StompJS**: Implementación de **WebSockets** para comunicación en tiempo real (vital para el SpyWall).
+*   **Axios**: Cliente HTTP para peticiones REST estándar.
+
+### Gestión de Estado
+*   **React Context API**: Manejo del estado global sin librerías externas pesadas (como Redux).
+    *   `AuthContext`: Manejo de sesión de usuario.
+    *   `DeviceContext`: Estado de los dispositivos conectados.
+
+---
+
+## 🚀 Características Clave (Key Features)
+
+### 1. 👁️ SpyWall (Muro de Espionaje)
+*   **Funcionalidad**: Visualización en cuadrícula de las pantallas de todos los dispositivos conectados en tiempo real.
+*   **Tecnología**: Recibe imágenes en Base64 a través de WebSockets (`/topic/screens`) y las actualiza dinámicamente.
+*   **Evidencia**: Capacidad de descargar un historial de capturas en formato JSON (`EVIDENCIA_YYYY-MM-DD.json`).
+
+### 2. 🎮 Centro de Control
+*   **Comandos Remotos**: Botones para enviar órdenes masivas ("INICIAR CLASE", "TERMINAR CLASE") a los agentes conectados.
+*   **Estado de Conexión**: Indicador visual (ONLINE/OFFLINE) del estado del WebSocket.
+
+### 3. 🔐 Seguridad & Rutas
+*   **Protected Routes**: Sistema de rutas protegidas (`ProtectedRoute.js`) que verifica roles (Admin vs User) antes de permitir el acceso.
+*   **Manejo de Roles**: Rutas específicas (`/spy`, `/dashboard`) restringidas solo a administradores.
+
+### 4. 📱 Dashboard Adaptativo
+*   Panel principal centralizado para la gestión general del sistema.
+*   Diseño responsive y estructurado por módulos.
+
+---
+
+## 🏗️ Arquitectura del Proyecto
+
+El proyecto sigue una estructura modular y escalable:
+
+*   **`/src/components`**: Componentes reutilizables (Botones, Inputs, Layouts).
+*   **`/src/pages`**: Vistas principales (`Home`, `Dashboard`, `SpyWall`).
+*   **`/src/context`**: Lógica de negocio encapsulada en Providers (Auth, Device).
+*   **`/src/services`**: Capa de abstracción para comunicación API y WebSockets (separando la lógica de la vista).
+*   **`/src/config`**: Configuraciones globales como rutas (`routes.js`) y temas.
+
+---
+
+## ❓ Preguntas Frecuentes (Q&A Prep)
+
+**P: ¿Cómo se actualizan las pantallas en tiempo real?**
+**R:** No usamos video streaming convencional (como WebRTC) por simplicidad de implementación en la red local. Usamos **WebSockets (StompJS)** para recibir actualizaciones de imágenes en Base64. Es un flujo constante de "capturas de pantalla" que el navegador renderiza rápidamente.
+
+**P: ¿Por qué React Context y no Redux?**
+**R:** Para el alcance actual, Redux añadiría complejidad innecesaria. `Context API` es suficiente para manejar el estado de autenticación y la lista de dispositivos, manteniendo la aplicación ligera.
+
+**P: ¿Cómo manejan la seguridad?**
+**R:** En el frontend, usamos *Route Guards* (componente `ProtectedRoute`) que verifican si el usuario tiene un token válido y el rol adecuado antes de renderizar la vista. Si no, lo redirige al login.
+
+**P: ¿Es escalable?**
+**R:** Sí. La arquitectura basada en componentes y servicios permite agregar nuevas funcionalidades (ej. historial de logs, chat con agentes) sin reescribir el código base.
